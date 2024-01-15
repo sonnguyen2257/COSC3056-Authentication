@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Log in</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/login.css"/>
+    <title>Log in</title>
+</head>
+<body>
+<div class="login-page">
+    <div class="form">
+        <form class="login-form" th:action="@{/login}" method="post">
+            <!-- <input type="text" placeholder="username" name="username"/>
+            <input type="password" placeholder="password" name="password"/> -->
+            <input type="text" placeholder="username" name="username"/>
+            <input type="password" placeholder="password" name="password">
+            <button>login</button>
+            <p class="message">Not registered? <a href="register">Create an account</a></p>
+        </form>
+    </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var dynamicMessage = /*[[${msg}]]*/ null;
+
+        function showAlert() {
+            if (dynamicMessage && dynamicMessage.trim() !== "") {
+                alert(dynamicMessage);
+            } 
+            windows.reload();
+        }
+        /*]]>*/
+    </script>
+
+</body>
+</html>
