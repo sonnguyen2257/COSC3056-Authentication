@@ -29,7 +29,7 @@ public class UserMaintenance {
 
 
     //TODO: database path may change 
-    private String DATABASE = "jdbc:sqlite:database/climatechange.db";
+    private String DATABASE = "jdbc:sqlite:climate-change.project/database/climatechange.db";
     
     public UserMaintenance(){
         username = null;
