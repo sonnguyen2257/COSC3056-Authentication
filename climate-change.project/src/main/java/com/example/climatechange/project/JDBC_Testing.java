@@ -16,7 +16,7 @@ import java.sql.Statement;
 
 @Controller
 
-public class JDBC {
+public class JDBC_Testing {
 
     @GetMapping("/sql")
     public String jdbc(){
@@ -39,27 +39,34 @@ public class JDBC {
             Statement stmt = conn.createStatement();
             stmt.setQueryTimeout(30);
 
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()){
-                th="";
-                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
-                    th+="<th>"+rs.getMetaData().getColumnName(i)+"</th>";
-                    td+="<td>"+rs.getString(i)+"</td>";
-                    System.out.println(rs.getMetaData().getColumnName(i)+": "+rs.getString(i));
+            try{
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()){
+                    th="";
+                    for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
+                        th+="<th>"+rs.getMetaData().getColumnName(i)+"</th>";
+                        td+="<td>"+rs.getString(i)+"</td>";
+                        System.out.println(rs.getMetaData().getColumnName(i)+": "+rs.getString(i));
+                    }
+                    table+="<tr>"+td+"</tr>";
+                    td="";
                 }
-                table+="<tr>"+td+"</tr>";
-                td="";
+    
+                
+                if (table.equals("")){
+                    table="<tr><td>No results found</td></tr>";
+                }
+                else{
+                    table="<b>"+query.toUpperCase()+"</b><table><tr>"+th+"</tr>"+table+"</table>";
+                }
+    
+                stmt.close();
+                conn.close();
+            } catch (Exception e) {
+                stmt.executeUpdate(query);
+                return "sql";
             }
-
-            if (table.equals("")){
-                table="<tr><td>No results found</td></tr>";
-            }
-            else{
-                table="<table><tr>"+th+"</tr>"+table+"</table>";
-            }
-
-            stmt.close();
-            conn.close();
+            
             // return table;
             model.addAttribute("queryResult", table);
         } catch (Exception e) {
