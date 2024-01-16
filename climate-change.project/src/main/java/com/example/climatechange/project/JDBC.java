@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
 
 // Java SQL
 import java.sql.Connection;
@@ -23,8 +24,8 @@ public class JDBC {
     }
 
     @PostMapping("/sql")
-    @ResponseBody
-    public String jdbcPost(@RequestParam(name="query") String query){
+    // @ResponseBody
+    public String jdbcPost(@RequestParam(name="query") String query, Model model){
         String DATABASE = "jdbc:sqlite:climate-change.project/database/climatechange.db";
         
         System.out.println("Input query is" + query);
@@ -40,6 +41,7 @@ public class JDBC {
 
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()){
+                th="";
                 for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++){
                     th+="<th>"+rs.getMetaData().getColumnName(i)+"</th>";
                     td+="<td>"+rs.getString(i)+"</td>";
@@ -58,12 +60,14 @@ public class JDBC {
 
             stmt.close();
             conn.close();
-            return table;
+            // return table;
+            model.addAttribute("queryResult", table);
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println("Result: Failed -"+e.getMessage());
         }
-        return alertPage("Result: Success", "sql");
+        // return alertPage("Result: Success", "sql");
+        return "sql";
     }
 
     private String alertPage(String msgAlert, String page) {

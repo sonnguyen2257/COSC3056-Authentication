@@ -17,7 +17,16 @@
             <form action="sql" method="post">
                 <input type="text" style="width: fit-content;" placeholder="query" name="query"/>
                 <button>submit</button>
+            </form>
+            <div id="result"></div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+            var outputTable = /*[[${queryResult}]]*/ null;
+            document.getElementById("result").innerHTML = outputTable;
+        /*]]>*/
+        </script>
 </body>
 </html>
